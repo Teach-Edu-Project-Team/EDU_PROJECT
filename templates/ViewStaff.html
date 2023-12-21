@@ -1,0 +1,52 @@
+{% extends "navs/base.html" %}
+{% load custom_tags %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_tags %}
+{% block title %}All Staff | Admin {% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    {% block content %}
+            <br>
+            <br>
+            {% if personals %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Action</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Gender</th>
+                            <th>Staff Category</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in personals %}
+                            <tr>
+                                <td class="action-column">
+                                    <a style="color: red;" href="{% url 'delete' pk=i.id %}">Delete</a>
+                                    <a style="color: green;" href="{% url 'update_staff' pk=i.id %}">Update</a>
+                                    <a style="color: blue;" href="{% url 'staff_detail' pk_test=i.id %}">View</a>
+                                </td>
+                                <td>{{ i.first_name }}</td>
+                                <td>{{ i.last_name }}</td>
+                                <td>{{ i.gender }}</td>
+                                <td>{% staff_category i %}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div style="text-align: center;">
+                    <p>No staff information to show.</p>
+                </div>
+            {% endif %}
+    {% endblock content %}
+</body>
+</html>

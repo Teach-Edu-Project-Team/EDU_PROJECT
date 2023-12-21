@@ -1,0 +1,80 @@
+{% extends 'navs/user_nav.html' %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+</head>
+<body>
+
+{% block content %}
+  
+
+  
+    <div style=" background-color: #f8d166; width: 70%; margin: auto; padding: 20px; background-color: #fff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); margin-top: 30px; border-radius: 8px;">
+
+        <h1 style="text-align: center; color: #3498db; margin-bottom: 30px;">User Profile</h1>
+
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; background-color: #f8d166; border-radius: 8px; overflow: hidden;">
+            <thead>
+                <tr>
+                    <th style="border: 1px solid #ffffff; padding: 12px; background-color: #3498db; color: #ffffff; border-radius: 8px;">Personal Information</th>
+                    <th style="border: 1px solid #ffffff; padding: 12px; background-color: #3498db; color: #ffffff; border-radius: 8px;">Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">First Name</td>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">{{ user_profile.first_name }}</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">Last Name</td>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">{{ user_profile.last_name }}</td>
+                </tr>
+                <!-- Add more fields as needed -->
+            </tbody>
+        </table>
+
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; background-color: #f8d166; border-radius: 8px; overflow: hidden;">
+            <thead>
+                <tr>
+                    <th style="border: 1px solid #ffffff; padding: 12px; background-color: #3498db; color: #ffffff; border-radius: 8px;">Work Information</th>
+                    <th style="border: 1px solid #ffffff; padding: 12px; background-color: #3498db; color: #ffffff; border-radius: 8px;">Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">Date of Appointment</td>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">{{ work_info.date_of_appointment }}</td>
+                </tr>
+                <!-- Add more fields as needed -->
+            </tbody>
+        </table>
+
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; background-color: #f8d166; border-radius: 8px; overflow: hidden;">
+            <thead>
+                <tr>
+                    <th style="border: 1px solid #ffffff; padding: 12px; background-color: #3498db; color: #ffffff; border-radius: 8px;">Nominal Data</th>
+                    <th style="border: 1px solid #ffffff; padding: 12px; background-color: #3498db; color: #ffffff; border-radius: 8px;">Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">Name of Bank</td>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">{{ nominal_data.name_of_bank }}</td>
+                </tr>
+                <!-- Add more fields as needed -->
+            </tbody>
+        </table>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <h4 style="color: #3498db; margin-top: 30px;">Need to update any information here?</h4>
+            <a href="{% url 'update_profile' %}" class="btn btn-primary" style="margin-bottom: 30px; margin-top: 30px;">Update</a>
+        </div>
+    </div>
+{% endblock content %}
+
+</body>
+</html>

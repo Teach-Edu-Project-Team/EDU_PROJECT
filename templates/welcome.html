@@ -1,0 +1,13 @@
+
+{% block content %}
+  <h1>Welcome to Our Site!</h1>
+  
+  {% if first_visit %}
+    <p>Thank you for visiting for the first time. We hope you enjoy your experience!</p>
+  {% else %}
+    <p>Welcome back! We're glad to see you again.</p>
+  {% endif %}
+
+  <!-- Add additional content or buttons for admins and users as needed -->
+
+{% endblock %}

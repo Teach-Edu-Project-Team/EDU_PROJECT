@@ -1,0 +1,68 @@
+{% extends 'status.html' %}
+{% load custom_tags %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_tags %}
+{% block title %}View Staff | Admin{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <style>
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .action-column {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .filter-form {
+            margin-top: 20px;
+            width: 80%;  /* Adjust the width as needed */
+            background-color: #f2f2f2;
+            text-align: center;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Add media query for responsiveness */
+        @media only screen and (max-width: 600px) {
+            .action-column {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+                align-items: center;
+                text-align: center;
+            }
+
+            .action-column a {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+    <!-- Add your head content if needed -->
+</head>
+<body class="body-table" style="justify-content: center;">
+
+    {% block content %}
+       
+    {% endblock content %}
+    
+    </body>
+    </html>

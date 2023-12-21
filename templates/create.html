@@ -1,0 +1,52 @@
+{% extends "navs/base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% block title %}Create a new staff member | Admin{% endblock %}
+{% block head %}
+    {{ wizard.form.media }}
+    <style>
+        .center-form {
+            max-width: 500px; 
+            margin: 0 auto;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h4 style="text-align: center;">
+            {% translate "Complete Your Profile" %}
+        </h4>
+        <p class="mt-5" style="font-size: 50px; text-align: center;">
+            {{ section_name }} 
+        </p>
+
+        <form action="" method="post" class="center-form">
+            {% csrf_token %}
+            
+            <div class="col-md-10">
+                {{ wizard.management_form }}
+                {% if wizard.form.forms %}
+                    {{ wizard.form.management_form }}
+                    {% for form in wizard.form.forms %}
+                        {{ form|crispy }}
+                        <p>{% translate "{{ section_name }}: Enter your information." %}</p>
+                    {% endfor %}
+                {% else %}
+                    {{ wizard.form|crispy }}
+                {% endif %}
+            </div>
+
+            {% if wizard.steps.prev %}
+                <button class="btn btn-lg btn-danger" name="wizard_goto_step" type="submit" value="{{ wizard.steps.first }}">
+                    {% translate "FIRST SECTION" %}
+                </button>
+                <button class="btn btn-lg btn-warning" name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">
+                    {% translate "PREV SECTION" %}
+                </button>
+            {% endif %}
+            
+            <input class="btn btn-lg btn-success" type="submit" value="{% translate "SUBMIT" %}"/>
+        </form>
+    </div>
+{% endblock content %}

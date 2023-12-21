@@ -1,0 +1,31 @@
+{% extends 'navs/base.html' %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Include HTMX script from CDN -->
+    <script src="https://unpkg.com/htmx.org@1.7.0/dist/htmx.js"></script>
+</head>
+<body>
+
+{% block content %}
+    <div class="container col-md-8">
+        <h1 style="text-align: center; margin-top: 30px;">Sign Up</h1>
+        
+        <form action="{% url 'signup' %}" method="POST" style="margin-top: 15px;">
+            {% csrf_token %}
+            {{ form|crispy }}
+            {{form.errors}}
+            <div style="text-align: center;">
+                <input class="btn btn-lg btn-success" type="submit" value="Create User">
+            </div>
+        </form>
+    </div>
+
+{% endblock content %}
+
+</body>
+</html>

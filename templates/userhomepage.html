@@ -1,0 +1,36 @@
+{% extends 'navs/user_nav.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    {% block content %}
+
+        {% if request.user.is_authenticated %}
+            <h1 style="text-align: center; margin-top: 50px;">Welcome, 
+                <span
+                style=
+                "font-weight: bold;
+                font-size: 60px;
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                text-transform: uppercase;"
+                >{{ request.user.username }} !</span></h1>        
+        {% endif %}
+        <div style="text-align: center; color: black;" class="alert alert-primary" role="alert">
+            Have you already created you profile? If not, <span><a style="color: red;" href="{% url 'user_profile' %}">click here to create your profile</a></span>
+        </div>
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="{% url 'user_page' %}" class="btn btn-primary">View Profile</a>
+
+        </div>
+        
+
+    {% endblock content %}
+        
+    
+</body>
+</html>
