@@ -7,8 +7,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Statistics | Admin</title>
+    <title>{% block title %}All Staff{% endblock %}</title>
+    
     <link rel="stylesheet" href="{% static 'css/status.css' %}">
+   
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/ae360af17e.js" crossorigin="anonymous"></script>
 
@@ -43,7 +45,7 @@
             list-style: none;
         }
 
-        
+        /* Layout skeleton */
 
         .wrapper {
             align-items: stretch;
@@ -125,6 +127,14 @@
             max-width: 100vw;
             width: 100vw;
         }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
 
         /* Responsive */
 
@@ -135,10 +145,17 @@
         }
 
     </style>
+
+    {% block head %}
+        
+    {% endblock %}
 </head>
 <body>
+    
+    
     <div class="wrapper">
         <!-- Sidebar -->
+    {% if user.is_authenticated %}
         <aside id="sidebar" style="background-color: #f8d166;">
             <div class="h-100">
                 <div class="sidebar-logo">
@@ -150,22 +167,20 @@
                         Tools & Components
                     </li>
                     <li class="sidebar-item">
-                        <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#pages"
-                            aria-expanded="false" aria-controls="pages">
-                            <i class="fa-regular fa-file-lines pe-2"></i>
-                            Profile
-                        </a>
-                        <ul id="pages" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                            <li class="sidebar-item">
-                                <a href="{% url 'user_profile' %}">Create Profile</a>
-                            </li>
-                            <li class="sidebar-item">
-                                <a href="{% url 'account_settings' %}" class="sidebar-link">Settings</a>
-                            </li>
-                        </ul>
+                            <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#auth"
+                                aria-expanded="false" aria-controls="auth">
+                                <i class="fa-regular fa-file-lines pe-2"></i>
+                                Profile
+                            </a>
+                            <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                                <li class="sidebar-item">
+                                    <a href="{% url 'admin_profile' %}" class="sidebar-link">Create Profile</a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="{% url 'account_settings_admin' %}" class="sidebar-link">Settings</a>
+                                </li>
+                            </ul>
                     </li>
-                    
-                    
                     <li class="sidebar-item">
                         <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard"
                             aria-expanded="false" aria-controls="dashboard">
@@ -179,7 +194,6 @@
                             <li class="sidebar-item">
                                 <a href="{% url 'Adminpage' %}" class="sidebar-link">Counts</a>
                             </li>
-                           
                             
                         </ul>
                     </li>
@@ -191,10 +205,10 @@
                         </a>
                         <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                             <li class="sidebar-item">
-                                <a href="#" class="sidebar-link">Login</a>
+                                <a href="{% url 'login' %}" class="sidebar-link">Login</a>
                             </li>
                             <li class="sidebar-item">
-                                <a href="#" class="sidebar-link">Log Out</a>
+                                <a href="{% url 'logout' %}" class="sidebar-link">Log Out</a>
                             </li>
                         </ul>
                     </li>
@@ -227,81 +241,46 @@
                 </ul>
             </div>
         </aside>
+    {% endif %}
         <!-- Main Component -->
         <div class="main">
             <nav class="navbar navbar-expand px-3 border-bottom" style="background-color: #f8d166;">
                 <!-- Button for sidebar toggle -->
-                <button class="btn" type="button" data-bs-theme="dark" style="background-color:rgba(12, 12, 12, 0.717);">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                
+                {% if user.is_authenticated %}
+                    <button class="btn" type="button" data-bs-theme="dark" style="background-color:rgba(12, 12, 12, 0.717);">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                {% endif %}
                 
                 <!-- Content aligned to the left -->
                 <div class="ms-auto">
                     {% if request.user.is_authenticated %}
-                        <span style="margin-right: 20px;">Hello, {{ request.user.username }} </span>
+                        <span style="margin-right: 10px;">Hello, {{ request.user.username }} </span>
+                    {% if request.user.personal.profile_pic %}  
+                    <a href="{% url 'account_settings' %}">          
+                        <img style="  width: 40px;
+                        height: 40px;
+                        margin: 0 auto;
+                        border-radius: 50%;
+                        object-fit: cover;" class="profile-pic" src="{{ request.user.personal.profile_pic.url }}" alt="Profile Picture">
+                    </a> 
+                    {% endif %}
                         <span><a href="{% url 'logout' %}" class="btn btn-sm btn-warning">Logout</a></span>
                     {% else %}
-                        <!-- Display a login link for non-authenticated users -->
                         <span><a href="{% url 'login' %}" class="btn btn-sm btn-primary">Login</a></span>
                     {% endif %}
                 </div>
             </nav>
             <main class="content px-3 py-2">
                 <div class="container-fluid">
-                    <div class="container">
-                        <h1 class="mt-4 d-none d-md-block text-center">STATISTICS</h1>
-                
-                        <div class="row justify-content-center">
-                            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4 ">
-                                <div class="card-holder bg-primary d-flex flex-column aspect-ratio-1x1 text-center">
-                                    <h6 style="font-weight:bolder ;">MALES</h6>
-                                    <hr>
-                                    <h4>{{total_males}}</h4>
-                                </div>
-                            </div>
-                
-                            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                                <div class="card-holder bg-success d-flex flex-column aspect-ratio-1x1 text-center">
-                                    <h6 style="font-weight:bolder ;">FEMALES</h6>
-                                    <hr>
-                                    <h4>{{total_females}}</h4>
-                                </div>
-                            </div>
-                
-                            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                                <div class="card-holder bg-warning d-flex flex-column aspect-ratio-1x1 text-center">
-                                    <h6 style="font-weight:bolder ;">TEACHING STAFF</h6>
-                                    <hr>
-                                    <h4>{% count_teaching_staff %}</h4>
-                                </div>
-                            </div>
-                
-                            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                                <div class="card-holder bg-danger d-flex flex-column aspect-ratio-1x1 text-center">
-                                    <h6 style="font-weight:bolder ;">NON-TEACHING STAFF</h6>
-                                    <hr>
-                                    <h4>{% count_non_teaching_staff %}</h4>
-                                </div>
-                            </div>
-
-                            <div class="container" style="text-align: center; margin-top: 30px;">
-                               <a href="{% url 'view_staff' %}">
-                                <button class="btn btn-primary">
-                                    Click here to view, delete or update a staff
-                                </button>
-                               </a>
-                                   
+                    
+                    <div class="mb-3">
                                 
-                               
-                            </div>
-                        </div>
-                
-                        
-                
                         {% block content %}
-                           
-                        {% endblock content %} 
-                        
+
+                        {% endblock content %}
+                            
                     </div>
                 </div>
             </main>
@@ -323,3 +302,58 @@
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

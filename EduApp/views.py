@@ -40,6 +40,9 @@ class WelcomeView(View):
 class ViewExistingProfile(TemplateView):
     template_name = 'viewprofile.html'
     
+class ViewExistingAdminProfile(TemplateView):
+    template_name = 'admin/view_profile(admin).html'
+    
 @unauthenticated_user
 class RegisterView(CreateView):
     form_class = CreateUserForm
@@ -87,8 +90,7 @@ class LogoutView(View):
         return render(request, self.template_name)
     
     
-@method_decorator(login_required(login_url='login'), name='dispatch')       
-@users_only  
+@method_decorator(login_required(login_url='login'), name='dispatch')        
 class AccountSettingsView(View):
     template_name = 'account_settings.html'
     profile_pic_form_class = ProfilePicForm
@@ -121,6 +123,29 @@ class AccountSettingsView(View):
         return render(request, self.template_name, {
             'profile_pic_form': profile_pic_form,
         })
+        
+class AccountSettingsAdminView(View):
+    template_name = 'admin/account_settings_admin.html'
+    profile_pic_form_class = ProfilePicForm
+    success_url = reverse_lazy('account_settings_admin')
+
+    def get_object_or_404(self):
+        return get_object_or_404(Personal, user=self.request.user)
+
+    def get(self, request, *args, **kwargs):
+        personal_instance = self.get_object_or_404()
+        profile_pic_form = self.profile_pic_form_class(instance=personal_instance)
+        return render(request, self.template_name, {'profile_pic_form': profile_pic_form})
+
+    def post(self, request, *args, **kwargs):
+        personal_instance = self.get_object_or_404()
+        profile_pic_form = self.profile_pic_form_class(request.POST, request.FILES, instance=personal_instance)
+
+        if profile_pic_form.is_valid():
+            profile_pic_form.save()
+            return redirect(self.success_url)
+
+        return render(request, self.template_name, {'profile_pic_form': profile_pic_form})
 
 @admin_only
 class HomeView(TemplateView):
@@ -165,23 +190,65 @@ class ProfilepageView(DetailView):
             context['nominal_data'] = Nominal.objects.filter(personal=self.object).first()
         return context
     
+@allowed_users('Admin')   
+class ProfileAdminpageView(DetailView):
+    model = Personal
+    template_name = 'admin/admin.html'
+    context_object_name = 'admin_profile'
+
+    def get(self, request, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            try:
+                personal_instance = Personal.objects.get(user=self.request.user)
+                return super().get(request, *args, **kwargs)
+            except Personal.DoesNotExist:
+                return render(request, 'profilenotcreated(admin).html')
+        else:
+            return render(request, 'profilenotcreated(admin).html')
+
+    def get_object(self, queryset=None):
+        if self.request.user.is_authenticated:
+            try:
+                personal_instance = Personal.objects.get(user=self.request.user)
+                return personal_instance
+            except Personal.DoesNotExist:
+                return None
+        else:
+            return None
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.object:
+            context['work_info'] = Work.objects.filter(personal=self.object).first()
+            context['nominal_data'] = Nominal.objects.filter(personal=self.object).first()
+        return context
+    
 class ProfileNotCreatedView(View):
     template_name = 'profilenotcreated.html'
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name)
     
+class ProfileNotCreatedAdminView(View):
+    template_name = 'profilenotcreated(admin).html'
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
+    
+    
 @method_decorator(login_required(login_url='login'), name='dispatch')    
-@users_only 
 class UpdateProfileView(View):
     template_name = 'updateprofile.html'
     personal_form_class = PersonalForm
     work_form_class = WorkForm
     nominal_form_class = NominalForm
-    success_url = reverse_lazy('user_page')  
+    success_url = reverse_lazy('user_page')
+
+    @staticmethod
+    def get_user_nav_template(request):
+        return 'navs/admin_nav.html' if request.user.is_staff else 'navs/user_nav.html'
 
     def get(self, request, *args, **kwargs):
-        
         personal_instance = Personal.objects.get(user=request.user)
         work_instance = Work.objects.get(personal=personal_instance)
         nominal_instance = Nominal.objects.get(personal=personal_instance)
@@ -190,12 +257,16 @@ class UpdateProfileView(View):
         work_form = self.work_form_class(instance=work_instance)
         nominal_form = self.nominal_form_class(instance=nominal_instance)
 
+        user_nav_template = self.get_user_nav_template(request)
+
         return render(request, self.template_name, {
+            'user_nav_template': user_nav_template,
             'personal_form': personal_form,
             'work_form': work_form,
             'nominal_form': nominal_form,
         })
 
+    
     def post(self, request, *args, **kwargs):
         # Get the current user's Personal instance
         personal_instance = Personal.objects.get(user=request.user)
@@ -210,13 +281,25 @@ class UpdateProfileView(View):
             personal_form.save()
             work_form.save()
             nominal_form.save()
+
+            # Dynamically set the success_url based on user status
+            if request.user.is_staff:
+                self.success_url = reverse_lazy('admin_page')
+            else:
+                self.success_url = reverse_lazy('user_page')
+
             return redirect(self.success_url)
 
+        user_nav_template = self.get_user_nav_template(request)
+
         return render(request, self.template_name, {
+            'user_nav_template': user_nav_template,
             'personal_form': personal_form,
             'work_form': work_form,
             'nominal_form': nominal_form,
         })
+
+        
         
 @method_decorator(login_required(login_url='login'), name='dispatch') 
 @users_only
@@ -313,6 +396,51 @@ class PersonalWizardView(SessionWizardView):
 
         
         return HttpResponseRedirect(reverse('view_staff'))
+    
+@method_decorator(login_required(login_url='login'), name='dispatch')
+@allowed_users('Admin')  
+class PersonalAdminWizardView(SessionWizardView):
+    form_list = [PersonalForm, WorkForm, NominalForm]
+    file_storage = FileSystemStorage(location=settings.MEDIA_ROOT)
+    template_name = 'admin/create(admin).html'
+    
+    def dispatch(self, request, *args, **kwargs):
+        # Check if the user already has a profile
+        existing_profile = Personal.objects.filter(user=request.user).first()
+        
+        if existing_profile:
+            # Redirect to view existing profile
+            return HttpResponseRedirect (reverse('view_profile(admin)'))
+            
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, form, **kwargs):
+        context = super().get_context_data(form=form, **kwargs)
+        section_names = {
+            '0': 'Personal Information Section',
+            '1': 'Work Information Section',
+            '2': 'Nominal Information Section',
+        }
+        context['section_name'] = section_names[self.steps.current]
+        return context
+
+    def done(self, form_list, **kwargs):
+        work_form = form_list[1]
+        personal = form_list[0].save(commit=False)
+
+        # Associate the user with the profile (for admin, assuming admin is the request user)
+        personal.user = self.request.user
+        personal.save()
+
+        work = work_form.save(commit=False)
+        work.personal = personal
+        work.save()
+
+        nominal = form_list[-1].save(commit=False)
+        nominal.personal = personal
+        nominal.save()
+
+        return HttpResponseRedirect(reverse('admin_page'))
     
 @method_decorator(login_required(login_url='login'), name='dispatch')
 @users_only

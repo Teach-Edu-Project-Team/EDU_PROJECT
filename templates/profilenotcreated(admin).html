@@ -1,11 +1,15 @@
-{% extends 'navs/base.html' %}
+{% extends 'navs/admin_nav.html' %}
 
+{% block title %}
+    Create Profile | Admin
+{% endblock %}
+  
 {% block content %}
   <div class="container mt-5">
             <p>
               It seems you haven't created your profile yet. Please complete your profile information to get started.
             </p>
-            <a href="{% url 'user_profile' %}" class="btn btn-primary">Create Profile</a>
+            <a href="{% url 'create_staff' %}" class="btn btn-primary">Create Profile</a>
     </div>
     
 {% endblock %}

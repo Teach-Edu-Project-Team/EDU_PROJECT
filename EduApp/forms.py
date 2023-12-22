@@ -7,7 +7,7 @@ class PersonalForm(forms.ModelForm):
     
     class Meta:
         model = Personal
-        exclude = ['user']
+        exclude = ['user', 'profile_pic']
         fields = '__all__'
         widgets = {
             'date_of_birth': forms.DateInput(attrs={'type': 'date'}),

@@ -8,22 +8,35 @@ urlpatterns = [
     path('home/', HomeView.as_view(), name='home'),
     
     path('user/', ProfilepageView.as_view(), name='user_page'),
+    path('admin_view_profile/', ProfileAdminpageView.as_view(), name='admin_page'),
+    
     path('AdminDisplay/', AdminView.as_view(), name='Adminpage'),
     path('staff/<int:pk_test>/', StaffDetailView.as_view(), name='staff_detail'),
     path('update/<int:pk>/', PersonalUpdateView.as_view(), name='update_staff'),
     path('delete/<int:pk>/', PersonalDeleteView.as_view(), name='delete'),
     path('create_user/',PersonalWizardView.as_view(),name='create_staff'),
+    path('admin_user/',PersonalAdminWizardView.as_view(),name='admin_profile'),
+    
     
     path('ViewStaff/',StaffView.as_view(),name='view_staff'),
     
     path('complete_profile/', CompleteProfileView.as_view(), name='cprofile'),
     path('incomplete_profile/', IncompleteProfileView.as_view(), name='iprofile'),
+    
     path('view-existing-profile/', ViewExistingProfile.as_view(), name='view_profile'),
+    path('view-existing-profile(admin)/', ViewExistingAdminProfile.as_view(), name='view_profile(admin)'),
+    
     path('updateprofile/', UpdateProfileView.as_view(), name='update_profile'),
     path('profilenotcreated/', ProfileNotCreatedView.as_view(), name='profile_not_created'),
+    path('profilenotcreated(admin)/', ProfileNotCreatedAdminView.as_view(), name='profile_not_created(admin)'),
+    
+    
     
     
     path('Account Settings/', AccountSettingsView.as_view(), name='account_settings'),
+    path('Account_Settings_admin/', AccountSettingsAdminView.as_view(), name='account_settings_admin'),
+    
+    
     path('userprofile/', PersonalUserWizardView.as_view(), name='user_profile'),
     
     path('register/', RegisterView.as_view(), name='signup'),

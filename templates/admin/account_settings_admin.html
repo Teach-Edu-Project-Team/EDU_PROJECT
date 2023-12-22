@@ -1,0 +1,43 @@
+{% extends 'navs/admin_nav.html' %}
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+   
+</head>
+<body>
+        
+{% block content %}
+    <br>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card card-body">
+                <a href="{% url 'admin_page' %}" class="btn btn-warning"> <span style="font-size: 15px; font-weight: bolder;">&#8592;</span> Back to Credentials</a>
+                <hr>
+                <h3 style="text-align: center;">Account Settings</h3>
+                {% if request.user.is_authenticated and request.user.personal.profile_pic %}
+                    <img style="  width: 100px;
+                    height: 100px;
+                    margin: 0 auto;
+                    border-radius: 50%;
+                    object-fit: cover;" class="profile-pic" src="{{ request.user.personal.profile_pic.url }}" alt="Profile Picture">
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="card card-body">
+                <form method="POST" action="" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ profile_pic_form|crispy }}
+                    <input type="submit" class="btn btn-primary" name="Update Information">
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+</body>
+</html>

@@ -1,4 +1,4 @@
-{% extends "navs/base.html" %}
+{% extends "navs/admin_nav.html" %}
 {% load custom_tags %}
 {% load crispy_forms_tags %}
 {% load crispy_forms_tags %}
@@ -9,6 +9,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        /* Add your custom styles here */
+        .admin-row {
+            background-color: #f0f8ff;  /* Light blue background for admin rows */
+        }
+    </style>
 </head>
 <body>
     
@@ -28,17 +34,19 @@
                     </thead>
                     <tbody>
                         {% for i in personals %}
-                            <tr>
-                                <td class="action-column">
-                                    <a style="color: red;" href="{% url 'delete' pk=i.id %}">Delete</a>
-                                    <a style="color: green;" href="{% url 'update_staff' pk=i.id %}">Update</a>
-                                    <a style="color: blue;" href="{% url 'staff_detail' pk_test=i.id %}">View</a>
-                                </td>
-                                <td>{{ i.first_name }}</td>
-                                <td>{{ i.last_name }}</td>
-                                <td>{{ i.gender }}</td>
-                                <td>{% staff_category i %}</td>
-                            </tr>
+                            {% if not i.user.is_staff %}  <!-- Exclude admin information -->
+                                <tr {% if i.user.is_staff %}class="admin-row"{% endif %}>
+                                    <td class="action-column">
+                                        <a style="color: red;" href="{% url 'delete' pk=i.id %}">Delete</a>
+                                        <a style="color: green;" href="{% url 'update_staff' pk=i.id %}">Update</a>
+                                        <a style="color: blue;" href="{% url 'staff_detail' pk_test=i.id %}">View</a>
+                                    </td>
+                                    <td>{{ i.first_name }}</td>
+                                    <td>{{ i.last_name }}</td>
+                                    <td>{{ i.gender }}</td>
+                                    <td>{% staff_category i %}</td>
+                                </tr>
+                            {% endif %}
                         {% endfor %}
                     </tbody>
                 </table>

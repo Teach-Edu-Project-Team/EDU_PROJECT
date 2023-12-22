@@ -167,12 +167,20 @@
                         Tools & Components
                     </li>
                     <li class="sidebar-item">
-                        <a href="#" class="sidebar-link">
-                            <i class="fa-solid fa-list pe-2"></i>
-                            Profile
-                        </a>
+                            <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#auth"
+                                aria-expanded="false" aria-controls="auth">
+                                <i class="fa-regular fa-file-lines pe-2"></i>
+                                Profile
+                            </a>
+                            <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                                <li class="sidebar-item">
+                                    <a href="{% url 'create_staff' %}" class="sidebar-link">Create Profile</a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="{% url 'account_settings' %}" class="sidebar-link">Settings</a>
+                                </li>
+                            </ul>
                     </li>
-                   
                     <li class="sidebar-item">
                         <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard"
                             aria-expanded="false" aria-controls="dashboard">
@@ -240,7 +248,7 @@
                 <!-- Button for sidebar toggle -->
                 
                 {% if user.is_authenticated %}
-                    <button class="btn" type="button" data-bs-theme="dark" style="background-color: black;">
+                    <button class="btn" type="button" data-bs-theme="dark" style="background-color:rgba(12, 12, 12, 0.717);">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                 {% endif %}
