@@ -181,7 +181,7 @@
                         </a>
                         <ul id="dashboard" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                             <li class="sidebar-item">
-                                <a href="" class="sidebar-link">Credentials</a>
+                                <a href="{% url 'user_page' %}" class="sidebar-link">Credentials</a>
                             </li>
                            
                             
@@ -213,13 +213,13 @@
                         </a>
                         <ul id="multi" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                             <li class="sidebar-item">
-                                <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse"
+                                <a href="" class="sidebar-link collapsed" data-bs-toggle="collapse"
                                     data-bs-target="#multi-two" aria-expanded="false" aria-controls="multi-two">
                                     Manage Your Credentials
                                 </a>
                                 <ul id="multi-two" class="sidebar-dropdown list-unstyled collapse">
                                     <li class="sidebar-item">
-                                        <a href="" class="sidebar-link">Update Information</a>
+                                        <a href="{% url 'update_profile' %}" class="sidebar-link">Update Information</a>
                                     </li>
                                    
                                 </ul>

@@ -355,7 +355,7 @@ class PersonalUserWizardView(SessionWizardView):
         nominal.personal = personal
         nominal.save()
 
-        return HttpResponseRedirect(reverse('c'))
+        return HttpResponseRedirect(reverse('user_page'))
 
         
         
