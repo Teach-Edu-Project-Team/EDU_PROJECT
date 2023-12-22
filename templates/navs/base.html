@@ -151,8 +151,11 @@
     {% endblock %}
 </head>
 <body>
+    
+    
     <div class="wrapper">
         <!-- Sidebar -->
+    {% if user.is_authenticated %}
         <aside id="sidebar" style="background-color: #f8d166;">
             <div class="h-100">
                 <div class="sidebar-logo">
@@ -211,10 +214,10 @@
                         </a>
                         <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                             <li class="sidebar-item">
-                                <a href="#" class="sidebar-link">Login</a>
+                                <a href="{% url 'login' %}" class="sidebar-link">Login</a>
                             </li>
                             <li class="sidebar-item">
-                                <a href="#" class="sidebar-link">Log Out</a>
+                                <a href="{% url 'logout' %}" class="sidebar-link">Log Out</a>
                             </li>
                         </ul>
                     </li>
@@ -247,13 +250,17 @@
                 </ul>
             </div>
         </aside>
+    {% endif %}
         <!-- Main Component -->
         <div class="main">
             <nav class="navbar navbar-expand px-3 border-bottom" style="background-color: #f8d166;">
                 <!-- Button for sidebar toggle -->
-                <button class="btn" type="button" data-bs-theme="dark" style="background-color: black;">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                
+                {% if user.is_authenticated %}
+                    <button class="btn" type="button" data-bs-theme="dark" style="background-color: black;">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                {% endif %}
                 
                 <!-- Content aligned to the left -->
                 <div class="ms-auto">

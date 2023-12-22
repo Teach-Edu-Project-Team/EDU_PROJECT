@@ -171,12 +171,6 @@
                             <li class="sidebar-item">
                                 <a href="{% url 'account_settings' %}" class="sidebar-link">Settings</a>
                             </li>
-                            <li class="sidebar-item">
-                                <a href="#" class="sidebar-link">Ecommerce</a>
-                            </li>
-                            <li class="sidebar-item">
-                                <a href="#" class="sidebar-link">Crypto</a>
-                            </li>
                         </ul>
                     </li>
                     <li class="sidebar-item">
@@ -201,10 +195,10 @@
                         </a>
                         <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                             <li class="sidebar-item">
-                                <a href="#" class="sidebar-link">Login</a>
+                                <a href="{% url 'login' %}" class="sidebar-link">Login</a>
                             </li>
                             <li class="sidebar-item">
-                                <a href="#" class="sidebar-link">Log Out</a>
+                                <a href="{% url 'logout' %}" class="sidebar-link">Log Out</a>
                             </li>
                         </ul>
                     </li>
