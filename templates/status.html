@@ -157,7 +157,7 @@
                         </a>
                         <ul id="pages" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                             <li class="sidebar-item">
-                                <a href="{% url 'user_profile' %}">Create Profile</a>
+                                <a href="{% url 'user_profile' %}" class="sidebar-link">Create Profile</a>
                             </li>
                             <li class="sidebar-item">
                                 <a href="{% url 'account_settings' %}" class="sidebar-link">Settings</a>
@@ -238,10 +238,18 @@
                 <!-- Content aligned to the left -->
                 <div class="ms-auto">
                     {% if request.user.is_authenticated %}
-                        <span style="margin-right: 20px;">Hello, {{ request.user.username }} </span>
+                        <span style="margin-right: 10px;">Hello, {{ request.user.username }} </span>
+                    {% if request.user.personal.profile_pic %}  
+                    <a href="{% url 'account_settings' %}">          
+                        <img style="  width: 40px;
+                        height: 40px;
+                        margin: 0 auto;
+                        border-radius: 50%;
+                        object-fit: cover;" class="profile-pic" src="{{ request.user.personal.profile_pic.url }}" alt="Profile Picture">
+                    </a> 
+                    {% endif %}
                         <span><a href="{% url 'logout' %}" class="btn btn-sm btn-warning">Logout</a></span>
                     {% else %}
-                        <!-- Display a login link for non-authenticated users -->
                         <span><a href="{% url 'login' %}" class="btn btn-sm btn-primary">Login</a></span>
                     {% endif %}
                 </div>

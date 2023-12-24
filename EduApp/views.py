@@ -20,7 +20,7 @@ from django.utils.decorators import method_decorator
 
 
 from formtools.wizard.views import SessionWizardView
-from .filters import *
+
 from .forms import *
 from .models import *
 from .decorators import *
