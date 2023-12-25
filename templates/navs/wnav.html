@@ -1,0 +1,107 @@
+{% load crispy_forms_tags %}
+{% load custom_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Default Title{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/status.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/ae360af17e.js" crossorigin="anonymous"></script>
+
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+        *,
+        ::after,
+        ::before {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+           
+        }
+
+        h3 {
+            font-size: 1.2375rem;
+            color: black;
+        }
+
+        a {
+            cursor: pointer;
+            text-decoration: none;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        /* Layout skeleton */
+
+        .wrapper {
+            align-items: stretch;
+            display: flex;
+            width: 100%;
+        }
+
+        #sidebar {
+            max-width: 264px;
+            min-width: 264px;
+            transition: all 0.35s ease-in-out;
+            z-index: 1111;
+        }
+
+        /* Sidebar collapse */
+
+        #sidebar.collapsed {
+            margin-left: -264px;
+        }
+
+        .main {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            transition: all 0.35s ease-in-out;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        
+        <!-- Main Component -->
+        <div class="main">
+            <nav class="navbar navbar-expand px-3 border-bottom" style="background-color: #f8d166;">
+                
+                <div class="ms-left">
+                    <h3>EDU</h3>
+                </div>
+            </nav>
+            <main class="content px-3 py-2">
+                <div class="container-fluid">
+                    
+                    {% block content %}
+                        
+                    {% endblock content %}
+                        
+                </div>  
+            </main>
+        </div>
+
+        
+    </div>
+    
+    
+</body>
+</html>

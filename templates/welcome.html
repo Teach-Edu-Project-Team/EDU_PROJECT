@@ -1,5 +1,7 @@
-
+{% extends 'navs/wnav.html' %}
 {% block content %}
+
+<div style="text-align: center; margin-top: 50px;">
   <h1>Welcome to Our Site!</h1>
   
   {% if first_visit %}
@@ -8,6 +10,22 @@
     <p>Welcome back! We're glad to see you again.</p>
   {% endif %}
 
-  <!-- Add additional content or buttons for admins and users as needed -->
+  <div style="text-align: center;" >
+    <a href="{% url 'signup' %}">
+      <button style="margin-right: 10px" class="btn btn-success">
+        Sign Up
+      </button>
+    </a>
+
+    <a href="{% url 'login' %}">
+        <button class="btn btn-primary">
+          Log In
+        </button>
+    </a>
+  </div>
+
+</div>
+ 
+  
 
 {% endblock %}

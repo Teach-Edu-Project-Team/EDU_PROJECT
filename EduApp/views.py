@@ -20,7 +20,7 @@ from django.utils.decorators import method_decorator
 
 
 from formtools.wizard.views import SessionWizardView
-
+from .filters import *
 from .forms import *
 from .models import *
 from .decorators import *
@@ -244,9 +244,7 @@ class UpdateProfileView(View):
     nominal_form_class = NominalForm
     success_url = reverse_lazy('user_page')
 
-    @staticmethod
-    def get_user_nav_template(request):
-        return 'navs/admin_nav.html' if request.user.is_staff else 'navs/user_nav.html'
+    
 
     def get(self, request, *args, **kwargs):
         personal_instance = Personal.objects.get(user=request.user)
@@ -371,8 +369,9 @@ class AdminView(TemplateView):
 class PersonalWizardView(SessionWizardView):
     form_list = [PersonalForm, WorkForm, NominalForm]
     file_storage = FileSystemStorage(location=settings.MEDIA_ROOT)
-    template_name = 'create.html'
-
+    template_name = 'admin/create(admin).html'
+    
+    
     def get_context_data(self, form, **kwargs):
         context = super().get_context_data(form=form, **kwargs)
         section_names = {
