@@ -40,15 +40,15 @@
             </div>
 
             {% if wizard.steps.prev %}
-                <button class="btn btn-lg btn-danger" name="wizard_goto_step" type="submit" value="{{ wizard.steps.first }}">
+                <button class="btn btn-danger" name="wizard_goto_step" type="submit" value="{{ wizard.steps.first }}">
                     {% translate "FIRST SECTION" %}
                 </button>
-                <button class="btn btn-lg btn-warning" name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">
+                <button class="btn btn-warning" name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">
                     {% translate "PREV SECTION" %}
                 </button>
             {% endif %}
             
-            <input class="btn btn-lg btn-success" type="submit" value="{% translate "SUBMIT" %}"/>
+            <input class="btn btn-success" type="submit" value="{% translate "SUBMIT" %}"/>
         </form>
     </div>
 {% endblock content %}
