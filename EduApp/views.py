@@ -160,6 +160,14 @@ class AccountSettingsAdminView(View):
     template_name = 'admin/account_settings_admin.html'
     profile_pic_form_class = ProfilePicForm
     success_url = reverse_lazy('account_settings_admin')
+    
+    def dispatch(self, request, *args, **kwargs):
+        # Check if the user already has a profile
+        existing_profile = Personal.objects.filter(user=request.user).first()
+
+        if not existing_profile:
+            return render(request, 'profilenotcreated(admin).html')
+        return super().dispatch(request, *args, **kwargs)
 
     def get_object_or_404(self):
         return get_object_or_404(Personal, user=self.request.user)
