@@ -263,11 +263,15 @@
             <main class="content px-3 py-2">
                 <div class="container-fluid">
                     <div class="container">
-                        <h1>{{ staff.first_name }} {{ staff.last_name }}</h1>
+                        <h1>{{ staff.first_name }} {{ staff.last_name }} <a style="margin-left: 30px;" href="{% url 'staff_pdf_view' pk_test=staff.pk %}" target="_blank">
+                            <i class="fa-solid fa-download"></i>
+                        </a></h1>
                         <hr>
+                        
                         <div class="profile-info">
                             
                             <div class="user-details">
+                                
                                 <p><strong>First Name:</strong> {{ staff.first_name }}</p>
                                 <p><strong>Last Name:</strong> {{ staff.last_name }}</p>
                                 <!-- Add other personal details as needed -->
@@ -328,11 +332,75 @@
                                     <td><strong>Date at Current Station</strong></td>
                                     <td>{{ work_instance.date_at_current_station }}</td>
                                 </tr>
-                                <!-- Add other work details as needed -->
+                                <tr>
+                                    <td><strong>SSNIT</strong></td>
+                                    <td>{{ work_instance.ssnit }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>NTC license number</strong></td>
+                                    <td>{{ work_instance.ntc_license_number }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Rank</strong></td>
+                                    <td>{{ work_instance.rank }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Date promoted to Rank</strong></td>
+                                    <td>{{ work_instance.date_promoted_to_rank}}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Staff Cateogory</strong></td>
+                                    <td>{{ work_instance.staff_category}}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Academics</strong></td>
+                                    <td>{{ work_instance.academics}}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Professional</strong></td>
+                                    <td>{{ work_instance.professional}}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Schedule</strong></td>
+                                    <td>{{ work_instance.schedule}}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Department Category</strong></td>
+                                    <td>{{ work_instance.department_category}}</td>
+                                </tr>
                             </table>
                         {% else %}
-                            <p>No work information available.</p>
+                        <br>
+                            <p style="text-align: center;">No work information available.</p>
                         {% endif %}
+
+                        
+                        {% if nominal_instance %}
+                            <br>
+                            <h2 style="text-align: center;">Work Details</h2>
+                            <table>
+                                <tr>
+                                    <th>FIELD</th>
+                                    <th>INFO</th>
+                                </tr>
+                                <tr>
+                                    <td><strong>Name of bank</strong></td>
+                                    <td>{{ nominal_instance.name_of_bank }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Bank Branch</strong></td>
+                                    <td>{{ nominal_instance.bank_branch }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Bank Branch</strong></td>
+                                    <td>{{ nominal_instance.bank_branch }}</td>
+                                </tr>
+                            </table>
+                        {% else %}
+                        <br>
+                            <p style="text-align: center;">No nominal information available.</p>
+                        {% endif %}
+                            
                     </div>
                         
                 </div>

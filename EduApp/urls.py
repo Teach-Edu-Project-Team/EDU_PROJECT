@@ -8,6 +8,9 @@ urlpatterns = [
     path('', WelcomeView.as_view(), name='welcome'),
     path('home/', HomeView.as_view(), name='home'),
     
+    path('pdf/<int:pk_test>/', PDFView.as_view(), name='staff_pdf_view'),
+    
+    
     path('user/', ProfilepageView.as_view(), name='user_page'),
     path('admin_view_profile/', ProfileAdminpageView.as_view(), name='admin_page'),
     

@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.contrib.auth. models import Group
 
+
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -18,12 +19,17 @@ from django.views import View
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
+from xhtml2pdf import pisa
+from io import BytesIO
+from django.template.loader import get_template
 
 from formtools.wizard.views import SessionWizardView
+
 from .filters import *
 from .forms import *
 from .models import *
 from .decorators import *
+from .pdf import *
 
 
 
@@ -36,6 +42,32 @@ class WelcomeView(View):
             return render(request, self.template_name, {'first_visit': True})
         else:
             return render(request, self.template_name, {'first_visit': False})
+        
+
+class PDFView(View):
+    template_name = 'staff_pdf.html'
+
+    def get(self, request, pk_test, *args, **kwargs):
+        staff_instance = get_object_or_404(Personal, pk=pk_test)
+        context = {'staff': staff_instance}
+
+        pdf_response = self.render_to_pdf(self.template_name, context)
+
+        if pdf_response:
+            return pdf_response
+
+        return HttpResponse("Failed to generate PDF.")
+
+    def render_to_pdf(self, template_path, context_dict):
+        template = get_template(template_path)
+        html = template.render(context_dict)
+
+        result = BytesIO()
+        pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), result)
+
+        if not pdf.err:
+            return HttpResponse(result.getvalue(), content_type="application/pdf")
+        return None
 
 class ViewExistingProfile(TemplateView):
     template_name = 'viewprofile.html'

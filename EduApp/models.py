@@ -62,7 +62,7 @@ class Work(models.Model):
     academics= models.CharField(max_length=10, null=True, blank=True) 
     professional = models.CharField(max_length=10, null=True, blank=True) 
     schedule = models.CharField(max_length=10, null=True, blank=True) 
-    deaprtment_category = models.CharField(max_length=50, choices=DEPARTMENT_CHOICES)
+    department_category = models.CharField(max_length=50, choices=DEPARTMENT_CHOICES)
     personal = models.ForeignKey(Personal, on_delete=models. CASCADE)    
     
     
