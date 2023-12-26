@@ -295,18 +295,17 @@ class UpdateProfileView(View):
         work_form = self.work_form_class(instance=work_instance)
         nominal_form = self.nominal_form_class(instance=nominal_instance)
 
-        user_nav_template = self.get_user_nav_template(request)
+        is_admin = request.user.is_staff
 
         return render(request, self.template_name, {
-            'user_nav_template': user_nav_template,
+            'user_nav_template': 'navs/admin_nav.html' if is_admin else 'navs/user_nav.html',
             'personal_form': personal_form,
             'work_form': work_form,
             'nominal_form': nominal_form,
+            'is_admin': is_admin, 
         })
 
-    
     def post(self, request, *args, **kwargs):
-        # Get the current user's Personal instance
         personal_instance = Personal.objects.get(user=request.user)
         work_instance = Work.objects.get(personal=personal_instance)
         nominal_instance = Nominal.objects.get(personal=personal_instance)
@@ -320,7 +319,6 @@ class UpdateProfileView(View):
             work_form.save()
             nominal_form.save()
 
-            # Dynamically set the success_url based on user status
             if request.user.is_staff:
                 self.success_url = reverse_lazy('admin_page')
             else:
@@ -328,10 +326,9 @@ class UpdateProfileView(View):
 
             return redirect(self.success_url)
 
-        user_nav_template = self.get_user_nav_template(request)
+        
 
         return render(request, self.template_name, {
-            'user_nav_template': user_nav_template,
             'personal_form': personal_form,
             'work_form': work_form,
             'nominal_form': nominal_form,
