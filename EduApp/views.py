@@ -287,23 +287,29 @@ class UpdateProfileView(View):
     
 
     def get(self, request, *args, **kwargs):
-        personal_instance = Personal.objects.get(user=request.user)
-        work_instance = Work.objects.get(personal=personal_instance)
-        nominal_instance = Nominal.objects.get(personal=personal_instance)
+        try:
+            personal_instance = Personal.objects.get(user=request.user)
+            work_instance = Work.objects.get(personal=personal_instance)
+            nominal_instance = Nominal.objects.get(personal=personal_instance)
 
-        personal_form = self.personal_form_class(instance=personal_instance)
-        work_form = self.work_form_class(instance=work_instance)
-        nominal_form = self.nominal_form_class(instance=nominal_instance)
+            personal_form = self.personal_form_class(instance=personal_instance)
+            work_form = self.work_form_class(instance=work_instance)
+            nominal_form = self.nominal_form_class(instance=nominal_instance)
 
-        is_admin = request.user.is_staff
+            is_admin = request.user.is_staff
 
-        return render(request, self.template_name, {
-            'user_nav_template': 'navs/admin_nav.html' if is_admin else 'navs/user_nav.html',
-            'personal_form': personal_form,
-            'work_form': work_form,
-            'nominal_form': nominal_form,
-            'is_admin': is_admin, 
-        })
+            return render(request, self.template_name, {
+                'user_nav_template': 'navs/admin_nav.html' if is_admin else 'navs/user_nav.html',
+                'personal_form': personal_form,
+                'work_form': work_form,
+                'nominal_form': nominal_form,
+                'is_admin': is_admin, 
+            })
+        except Personal.DoesNotExist:
+            return render(request, 'profilenotcreated.html')
+
+    
+
 
     def post(self, request, *args, **kwargs):
         personal_instance = Personal.objects.get(user=request.user)
