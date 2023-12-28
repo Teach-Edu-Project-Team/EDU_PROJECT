@@ -44,12 +44,25 @@ class WelcomeView(View):
             return render(request, self.template_name, {'first_visit': False})
         
 
+
 class PDFView(View):
     template_name = 'staff_pdf.html'
 
     def get(self, request, pk_test, *args, **kwargs):
         staff_instance = get_object_or_404(Personal, pk=pk_test)
-        context = {'staff': staff_instance}
+        
+       
+        try:
+            work_instance = Work.objects.get(personal_id=staff_instance.id)
+        except Work.DoesNotExist:
+            work_instance = None
+        
+        try:
+            nominal_instance = Nominal.objects.get(personal_id=staff_instance.id)
+        except Nominal.DoesNotExist:
+            nominal_instance = None
+
+        context = {'staff': staff_instance, 'work_instance': work_instance, 'nominal_instance': nominal_instance}
 
         pdf_response = self.render_to_pdf(self.template_name, context)
 
@@ -545,9 +558,14 @@ class StaffDetailView(DetailView):
         except Work.DoesNotExist:
             work_instance = None
 
+        try:
+            nominal_instance = Nominal.objects.get(personal_id=self.object.id)
+        except Nominal.DoesNotExist:
+            nominal_instance = None
+            
         # Add the work_instance to the context
         context['work_instance'] = work_instance
-
+        context['nominal_instance'] = nominal_instance
         return context
     
 @method_decorator(login_required(login_url='login'), name='dispatch')

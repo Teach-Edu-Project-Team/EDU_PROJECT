@@ -377,7 +377,7 @@
                         
                         {% if nominal_instance %}
                             <br>
-                            <h2 style="text-align: center;">Work Details</h2>
+                            <h2 style="text-align: center;">Nominal Details</h2>
                             <table>
                                 <tr>
                                     <th>FIELD</th>
@@ -392,8 +392,20 @@
                                     <td>{{ nominal_instance.bank_branch }}</td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Bank Branch</strong></td>
-                                    <td>{{ nominal_instance.bank_branch }}</td>
+                                    <td><strong>Auth Number</strong></td>
+                                    <td>{{ nominal_instance.auth_number }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Salay Grade Type</strong></td>
+                                    <td>{{ nominal_instance.salary_grade_type }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Salary Grade Level</strong></td>
+                                    <td>{{ nominal_instance.salary_grade_level }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Grade Step</strong></td>
+                                    <td>{{ nominal_instance.grade_step }}</td>
                                 </tr>
                             </table>
                         {% else %}
