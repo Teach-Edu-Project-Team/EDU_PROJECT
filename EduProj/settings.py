@@ -109,7 +109,7 @@ DATABASES = {
     }
 }
 
-POSTGRES_LOCALLY = True
+POSTGRES_LOCALLY = False
 if ENVIRONMENT == 'production' or POSTGRES_LOCALLY == True:
     DATABASES['default'] = dj_database_url.parse(env('DATABASE_URL'))
 
@@ -176,18 +176,15 @@ CLOUDINARY_STORAGE = {
 
 
 #SMTP configuration
-if ENVIRONMENT == 'production' or POSTGRES_LOCALLY == True:
-    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    EMAIL_HOST = 'smtp.gmail.com'
-    EMAIL_HOST_USER = env('EMAIL_ADDRESS')
-    EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
-    EMAIL_PORT = 587
-    EMAIL_USE_TLS = True
-    DEFAULT_FROM_EMAIL = 'Edu'
-    ACCOUNT_EMAIL_SUBJECT_PREFIX = ''
-else:
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-    
+"""
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp-mail.outlook.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'mintahjeffrey66@gmail.com'
+EMAIL_HOST_PASSWORD = 'Jm321@#@#'
+DEFAULT_FROM_EMAIL = 'mintahjeffrey66@gmail.com'
+"""
 
 
-
+#https://app.mailgun.com/app/sending/domains/sandboxd2959ce362184043a31c8518b752f234.mailgun.org

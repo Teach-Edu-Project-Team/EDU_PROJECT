@@ -1,6 +1,7 @@
 # your_app/templatetags/custom_tags.py
 from django import template
 from EduApp.models import Work, Personal
+from django.contrib.auth.models import Group
 
 register = template.Library()
 
@@ -28,3 +29,7 @@ def get_personal_info(user):
         return personal_info
     except Personal.DoesNotExist:
         return None
+    
+@register.filter
+def not_in_admin_group(user):
+    return not user.groups.filter(name='Admin').exists()

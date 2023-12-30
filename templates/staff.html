@@ -143,7 +143,7 @@
         <aside id="sidebar" class="collapsed" style="background-color: #f8d166;">
             <div class="h-100">
                 <div class="sidebar-logo">
-                    <a href="#">EDU</a>
+                    <a href="{% url 'home' %}">EDU</a>
                 </div>
                 <!-- Sidebar Navigation -->
                 <ul class="sidebar-nav">
@@ -151,28 +151,19 @@
                         Tools & Components
                     </li>
                     <li class="sidebar-item">
-                        <a href="#" class="sidebar-link">
-                            <i class="fa-solid fa-list pe-2"></i>
-                            Profile
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#pages"
-                            aria-expanded="false" aria-controls="pages">
-                            <i class="fa-regular fa-file-lines pe-2"></i>
-                            Pages
-                        </a>
-                        <ul id="pages" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                            <li class="sidebar-item">
-                                <a href="#" class="sidebar-link">Analytics</a>
-                            </li>
-                            <li class="sidebar-item">
-                                <a href="#" class="sidebar-link">Ecommerce</a>
-                            </li>
-                            <li class="sidebar-item">
-                                <a href="#" class="sidebar-link">Crypto</a>
-                            </li>
-                        </ul>
+                            <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#auth"
+                                aria-expanded="false" aria-controls="auth">
+                                <i class="fa-regular fa-file-lines pe-2"></i>
+                                Profile
+                            </a>
+                            <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                                <li class="sidebar-item">
+                                    <a href="{% url 'admin_profile' %}" class="sidebar-link">Create Profile</a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="{% url 'account_settings_admin' %}" class="sidebar-link">Settings</a>
+                                </li>
+                            </ul>
                     </li>
                     <li class="sidebar-item">
                         <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard"
@@ -187,7 +178,6 @@
                             <li class="sidebar-item">
                                 <a href="{% url 'Adminpage' %}" class="sidebar-link">Counts</a>
                             </li>
-                           
                             
                         </ul>
                     </li>
@@ -199,10 +189,10 @@
                         </a>
                         <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                             <li class="sidebar-item">
-                                <a href="#" class="sidebar-link">Login</a>
+                                <a href="{% url 'login' %}" class="sidebar-link">Login</a>
                             </li>
                             <li class="sidebar-item">
-                                <a href="#" class="sidebar-link">Log Out</a>
+                                <a href="{% url 'logout' %}" class="sidebar-link">Log Out</a>
                             </li>
                         </ul>
                     </li>
