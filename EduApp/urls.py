@@ -1,11 +1,20 @@
 from django.urls import path
 from .views import *
+
 from django.conf import settings
 from django.conf.urls.static import static
+
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', WelcomeView.as_view(), name='welcome'),
     path('home/', HomeView.as_view(), name='home'),
+    
+    path('download-all-staff-excel/', DownloadAllStaffExcelView.as_view(), name='download_all_staff_excel'),
+    path('download-user-excel/', DownloadUserExcelView.as_view(), name='download_user_excel'),
+    
+  
+    
     
     path('user/', ProfilepageView.as_view(), name='user_page'),
     path('admin_view_profile/', ProfileAdminpageView.as_view(), name='admin_page'),
@@ -40,13 +49,22 @@ urlpatterns = [
     path('userprofile/', PersonalUserWizardView.as_view(), name='user_profile'),
     
     path('register/', RegisterView.as_view(), name='signup'),
-    path('login/', LoginView.as_view(), name='login'),
+    path('accounts/login', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('user_home/', UserhomepageView.as_view(), name='user_home'),
      
     
     
-    path('settings/', AccountSettingsView.as_view(), name='account_settings')
+    path('settings/', AccountSettingsView.as_view(), name='account_settings'),
+    
+  
+    path('reset_password/', auth_views.PasswordResetView.as_view(template_name="reset_password.html"), name='reset_password'),
+    path('reset_password_sent/', auth_views.PasswordResetDoneView.as_view(template_name="reset_password_sent.html"), name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name="reset.html"), name='password_reset_confirm'),
+    path('reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(template_name="reset_done.html"), name='password_reset_complete'),
+    
+    
+    
     
     
        

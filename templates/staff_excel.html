@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ staff.first_name }} {{ staff.last_name }} - Excel</title>
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center;">{{ staff.first_name }} {{ staff.last_name }}</h1>
+        <p><strong>First Name:</strong> {{ staff.first_name }}</p>
+        <p><strong>Last Name:</strong> {{ staff.last_name }}</p>
+        <hr>
+        <div class="profile-info">
+           
+            <h2 style="text-align: center;">Personal Details</h2>
+            <table border="1" style="width:100%">
+                <tr>
+                    <th style="text-align: center;">FIELD</th>
+                    <th style="text-align: center;">INFO</th>
+                </tr>
+                <tr>
+                    <td style="text-align: center;"><strong>Email</strong></td>
+                    <td style="text-align: center;">{{ staff.email}}</td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;"><strong>Date of Birth</strong></td>
+                    <td style="text-align: center;">{{staff.date_of_birth}}</td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;"><strong>Other name</strong></td>
+                    <td style="text-align: center;">{{staff.other_name}}</td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;"><strong>Gender</strong></td>
+                    <td style="text-align: center;">{{staff.gender}}</td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;"><strong>Tel.</strong></td>
+                    <td style="text-align: center;">{{staff.phone_number}}</td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;"><strong>Emergency Contact Name</strong></td>
+                    <td style="text-align: center;">{{staff.emergency_contact_name}}</td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;"><strong>Ghana Card Number</strong></td>
+                    <td style="text-align: center;">{{staff.ghana_card_number}}</td>
+                </tr>
+            </table>
+
+            <br><br><br><br>
+
+            <h2 style="text-align: center;">Work Information</h2>
+            <table border="1" style="width:100%">
+                <tr>
+                    <th style="text-align: center;">FIELD</th>
+                    <th style="text-align: center;">INFO</th>
+                </tr>
+                <tr>
+                    <td style="text-align: center;"><strong>Date of Appointment</strong></td>
+                    <td style="text-align: center;">{{ work_instance.date_of_appointment}}</td>
+                </tr>
+                <!-- Add other rows for work information as needed -->
+            </table>
+
+            <br><br><br><br>
+
+            <h2 style="text-align: center;">Nominal Details</h2>
+            <table border="1" style="width:100%">
+                <tr>
+                    <th style="text-align: center;">FIELD</th>
+                    <th style="text-align: center;">INFO</th>
+                </tr>
+                <tr>
+                    <td style="text-align: center;"><strong>Name of bank</strong></td>
+                    <td style="text-align: center;">{{ nominal_instance.name_of_bank }}</td>
+                </tr>
+                <!-- Add other rows for nominal details as needed -->
+            </table>
+        </div>
+    </div>
+</body>
+</html>
