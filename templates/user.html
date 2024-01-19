@@ -14,12 +14,14 @@
 <body>
 
 {% block content %}
-  
 
-  
+
     <div style="margin-top: 30px;">
 
-        <h1 style="text-align: center; color: #3498db; margin-bottom: 30px;">User Profile</h1>
+        <h1 style="text-align: center; color: #3498db; margin-bottom: 30px;">User Profile <a style="margin-left: 30px;" href="{% url 'download_user_excel' %}" target="_blank">
+            <i class="fa-solid fa-download"></i>
+        </a>c</h1>
+        
 
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; background-color: #f8d166; border-radius: 8px; overflow: hidden;">
             

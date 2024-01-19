@@ -10,7 +10,10 @@ urlpatterns = [
     path('', WelcomeView.as_view(), name='welcome'),
     path('home/', HomeView.as_view(), name='home'),
     
-    path('pdf/<int:pk_test>/', PDFView.as_view(), name='staff_pdf_view'),
+    path('download-all-staff-excel/', DownloadAllStaffExcelView.as_view(), name='download_all_staff_excel'),
+    path('download-user-excel/', DownloadUserExcelView.as_view(), name='download_user_excel'),
+    
+  
     
     
     path('user/', ProfilepageView.as_view(), name='user_page'),

@@ -19,7 +19,7 @@ from django.views import View
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
-from xhtml2pdf import pisa
+import pandas as pd
 from io import BytesIO
 from django.template.loader import get_template
 
@@ -42,45 +42,116 @@ class WelcomeView(View):
             return render(request, self.template_name, {'first_visit': True})
         else:
             return render(request, self.template_name, {'first_visit': False})
-        
+  
+  
+class DownloadUserExcelView(View):
+    def get(self, request, *args, **kwargs):
+        # Assuming staff is the currently logged-in user's Personal instance
+        staff = request.user.personal
 
+        # Get work and nominal data related to the user
+        work_info = Work.objects.filter(personal=staff).first()
+        nominal_data = Nominal.objects.filter(personal=staff).first()
 
-class PDFView(View):
-    template_name = 'staff_pdf.html'
+        # Create a DataFrame with user's data
+        data = {
+            'Personal Information': ['First Name', 'Last Name', 'Other Name', 'Emergency Contact Name', 'Date Of Birth',
+                                     'Ghana Card Number', 'Gender', 'Phone Number', 'Email'],
+            'Details': [
+                staff.first_name, staff.last_name, staff.other_name, staff.emergency_contact_name,
+                staff.date_of_birth, staff.ghana_card_number, staff.gender, staff.phone_number, staff.email
+            ]
+        }
+        df_personal = pd.DataFrame(data)
 
-    def get(self, request, pk_test, *args, **kwargs):
-        staff_instance = get_object_or_404(Personal, pk=pk_test)
-        
-       
-        try:
-            work_instance = Work.objects.get(personal_id=staff_instance.id)
-        except Work.DoesNotExist:
-            work_instance = None
-        
-        try:
-            nominal_instance = Nominal.objects.get(personal_id=staff_instance.id)
-        except Nominal.DoesNotExist:
-            nominal_instance = None
+        data_work = {
+            'Work Information': ['Date of Appointment', 'Date at current Station', 'SSNIT', 'NTC License Number',
+                                 'Rank', 'Date promoted to Rank', 'Staff Category', 'Academics', 'Professional',
+                                 'Schedule', 'Department Category'],
+            'Details': [
+                work_info.date_of_appointment, work_info.date_at_current_station, work_info.ssnit,
+                work_info.ntc_license_number, work_info.rank, work_info.date_promoted_to_rank,
+                work_info.staff_category, work_info.academics, work_info.professional,
+                work_info.schedule, work_info.department_category
+            ]
+        }
+        df_work = pd.DataFrame(data_work)
 
-        context = {'staff': staff_instance, 'work_instance': work_instance, 'nominal_instance': nominal_instance}
+        data_nominal = {
+            'Nominal Data': ['Name of Bank', 'Bank Branch', 'Auth Number', 'Salary Grade Type', 'Salary Grade Level',
+                             'Grade Step'],
+            'Details': [
+                nominal_data.name_of_bank, nominal_data.bank_branch, nominal_data.auth_number,
+                nominal_data.salary_grade_type, nominal_data.salary_grade_level, nominal_data.grade_step
+            ]
+        }
+        df_nominal = pd.DataFrame(data_nominal)
 
-        pdf_response = self.render_to_pdf(self.template_name, context)
-
-        if pdf_response:
-            return pdf_response
-
-        return HttpResponse("Failed to generate PDF.")
-
-    def render_to_pdf(self, template_path, context_dict):
-        template = get_template(template_path)
-        html = template.render(context_dict)
-
+        # Save the DataFrames to an Excel file
         result = BytesIO()
-        pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), result)
+        with pd.ExcelWriter(result, engine='xlsxwriter') as writer:
+            df_personal.to_excel(writer, index=False, sheet_name='Personal Information')
+            df_work.to_excel(writer, index=False, sheet_name='Work Information')
+            df_nominal.to_excel(writer, index=False, sheet_name='Nominal Data')
 
-        if not pdf.err:
-            return HttpResponse(result.getvalue(), content_type="application/pdf")
-        return None
+        # Create the response with the Excel content type
+        response = HttpResponse(result.getvalue(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        response['Content-Disposition'] = 'attachment; filename=user_information.xlsx'
+
+        return response
+
+
+class DownloadAllStaffExcelView(View):
+    def get(self, request, *args, **kwargs):
+        # Get all staff members
+        personals = Personal.objects.all()
+
+        # Create a DataFrame with staff data
+        data = {
+            #Personals
+            'First Name': [staff.first_name for staff in personals],
+            'Last Name': [staff.last_name for staff in personals],
+            'Other Name': [staff.other_name for staff in personals],
+            'Emergency Contact Name': [staff.emergency_contact_name for staff in personals],
+            'Date Of Birth': [staff.date_of_birth for staff in personals],
+            'Ghana Card Number': [staff.ghana_card_number for staff in personals],
+            'Phone Number': [staff.phone_number for staff in personals],
+            'E-mail': [staff.email for staff in personals],
+            'Gender': [staff.gender for staff in personals],
+            
+            #Work
+            'Date of Appointment': [work.date_of_appointment.strftime('%Y-%m-%d') if work else '' for work in Work.objects.filter(personal__in=personals)],
+            'Date at Current Station': [work.date_at_current_station.strftime('%Y-%m-%d') if work else '' for work in Work.objects.filter(personal__in=personals)],
+            'NTC Licence Number': [work.ntc_license_number if work else '' for work in Work.objects.filter(personal__in=personals)],
+            'Date Promoted to Rank': [work.date_promoted_to_rank.strftime('%Y-%m-%d') if work else '' for work in Work.objects.filter(personal__in=personals)],
+            'SSNIT': [work.ssnit if work else '' for work in Work.objects.filter(personal__in=personals)],
+            'Academics': [work.academics if work else '' for work in Work.objects.filter(personal__in=personals)],
+            'Professional': [work.professional if work else '' for work in Work.objects.filter(personal__in=personals)],
+            'Schedule': [work.schedule if work else '' for work in Work.objects.filter(personal__in=personals)],
+            'Rank': [work.rank if work else '' for work in Work.objects.filter(personal__in=personals)],
+            'Staff Category': [work.staff_category if work else '' for work in Work.objects.filter(personal__in=personals)],
+            'Department Category': [work.department_category if work else '' for work in Work.objects.filter(personal__in=personals)],
+            
+            #Nominals
+            'Name of Bank': [nominal.name_of_bank if nominal else '' for nominal in Nominal.objects.filter(personal__in=personals)],
+            'Bank Branch': [nominal.bank_branch if nominal else '' for nominal in Nominal.objects.filter(personal__in=personals)],
+            'Authentication Number': [nominal.auth_number if nominal else '' for nominal in Nominal.objects.filter(personal__in=personals)],
+            'Salary Grade Type': [nominal.salary_grade_type if nominal else '' for nominal in Nominal.objects.filter(personal__in=personals)],
+            'Salary Grade Level': [nominal.salary_grade_level if nominal else '' for nominal in Nominal.objects.filter(personal__in=personals)],
+            'Grade Step': [nominal.grade_step if nominal else '' for nominal in Nominal.objects.filter(personal__in=personals)], 
+        }
+        df = pd.DataFrame(data)
+
+        
+        result = BytesIO()
+        df.to_excel(result, index=False, sheet_name='All Staff Information')
+
+        
+        response = HttpResponse(result.getvalue(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        response['Content-Disposition'] = 'attachment; filename=all_staff_information.xlsx'
+
+        return response
+
 
 class ViewExistingProfile(TemplateView):
     template_name = 'viewprofile.html'
@@ -616,23 +687,3 @@ class PersonalDeleteView(DeleteView):
     template_name = 'delete.html'  
     success_url = reverse_lazy('view_staff')
     pk_url_kwarg = 'pk'  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
