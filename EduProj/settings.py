@@ -32,7 +32,8 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 if ENVIRONMENT == 'development': #switch to production for changes everytime to see the errors
     DEBUG = True
-
+else:
+    DEBUG = False
 
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', "edu-project-sci4.onrender.com"]
