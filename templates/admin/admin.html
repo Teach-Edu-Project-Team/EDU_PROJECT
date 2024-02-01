@@ -13,7 +13,7 @@
   
 
   
-    <div style=" background-color: #f8d166; width: 70%; margin: auto; padding: 20px; background-color: #fff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); margin-top: 30px; border-radius: 8px;">
+    <div style="margin-top: 30px; border-radius: 8px;">
 
         <h1 style="text-align: center; color: #3498db; margin-bottom: 30px;">Admin Profile</h1>
 
@@ -33,6 +33,35 @@
                     <td style="border: 1px solid #ffffff; padding: 12px;">Last Name</td>
                     <td style="border: 1px solid #ffffff; padding: 12px;">{{ admin_profile.last_name }}</td>
                 </tr>
+                <tr>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">Other Name</td>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">{{ admin_profile.other_name }}</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">Emergency Contact Name</td>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">{{ admin_profile.emergency_contact_name }}</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">Date Of Birth</td>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">{{ admin_profile.date_of_birth }}</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">Ghana Card Number</td>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">{{ admin_profile.ghana_card_number }}</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">Gender</td>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">{{ admin_profile.gender }}</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">Phone Number/td>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">{{ admin_profile.phone_number }}</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">Email</td>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">{{ admin_profile.email }}</td>
+                </tr>
+                
                 <!-- Add more fields as needed -->
             </tbody>
         </table>
@@ -48,6 +77,46 @@
                 <tr>
                     <td style="border: 1px solid #ffffff; padding: 12px;">Date of Appointment</td>
                     <td style="border: 1px solid #ffffff; padding: 12px;">{{ work_info.date_of_appointment }}</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">Date at Current Station</td>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">{{ work_info.date_at_current_station }}</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">SSNIT</td>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">{{ work_info.ssnit }}</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">NTC License Number</td>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">{{ work_info.ntc_license_number }}</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">Rank</td>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">{{ work_info.rank }}</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">Date Promoted to Rank</td>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">{{ work_info.date_promoted_to_rank }}</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">Staff Category</td>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">{{ work_info.staff_category }}</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">Academics</td>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">{{ work_info.academics }}</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">Professional</td>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">{{ work_info.professional }}</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">Schedule</td>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">{{ work_info.schedule }}</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">Department Category</td>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">{{ work_info.department_category }}</td>
                 </tr>
                 <!-- Add more fields as needed -->
             </tbody>
@@ -65,6 +134,27 @@
                     <td style="border: 1px solid #ffffff; padding: 12px;">Name of Bank</td>
                     <td style="border: 1px solid #ffffff; padding: 12px;">{{ nominal_data.name_of_bank }}</td>
                 </tr>
+                <tr>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">Bank Branch</td>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">{{ nominal_data.bank_branch }}</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">Auth Number</td>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">{{ nominal_data.auth_number }}</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">Salary Grade Type</td>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">{{ nominal_data.salary_grade_type }}</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">Salary Grade Level</td>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">{{ nominal_data.salary_grade_level }}</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">Grade Step</td>
+                    <td style="border: 1px solid #ffffff; padding: 12px;">{{ nominal_data.grade_step }}</td>
+                </tr>
+
                 <!-- Add more fields as needed -->
             </tbody>
         </table>
