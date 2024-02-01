@@ -24,11 +24,35 @@ class WorkForm(forms.ModelForm):
     class Meta:
         model= Work
         exclude = ['personal']
+        widgets = {
+            'date_of_appointment': forms.DateInput(attrs={'type': 'date'}),
+            'date_at_current_station': forms.DateInput(attrs={'type': 'date'}),
+            'date_promoted_to_rank': forms.DateInput(attrs={'type':'date'}),
+            
+        }
+        
+     
+    def __init__(self, *args, **kwargs):
+        super(WorkForm, self).__init__(*args, **kwargs)
 
+        
+        for field_name, field in self.fields.items():
+            field.required = True
+    
+    
 class NominalForm(forms.ModelForm):
     class Meta:
         model=Nominal
         exclude = ['personal']
+           
+    def __init__(self, *args, **kwargs):
+        super(NominalForm, self).__init__(*args, **kwargs)
+
+        
+        for field_name, field in self.fields.items():
+            field.required = True 
+    
+  
         
 class CreateUserForm(UserCreationForm):
     class Meta:

@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/status.css' %}">
-    <title>Update Profile</title>
+    <title>{% block title %} User {% endblock %}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/ae360af17e.js" crossorigin="anonymous"></script>
 
@@ -142,6 +142,25 @@
             }
         }
 
+        @media (min-width:768px) {
+            .content {
+                width: auto;
+            }
+        }
+
+        #logoutBtn.hidden,
+        #helloAdmin.hidden {
+            display: none;
+        }
+
+        /* Responsive styles for mobile view */
+        @media (max-width: 767px) {
+            #sidebar.collapsed #logoutBtn,
+            #sidebar.collapsed #helloAdmin {
+                display: none;
+            }
+        }
+
     </style>
 
     {% block head %}
@@ -149,9 +168,10 @@
     {% endblock %}
 </head>
 <body>
+    
     <div class="wrapper">
         <!-- Sidebar -->
-        <aside id="sidebar" style="background-color: #f8d166;">
+        <aside id="sidebar" class="collapsed" style="background-color: #f8d166;">
             <div class="h-100">
                 <div class="sidebar-logo">
                     <a href="{% url 'home' %}">EDU</a>
@@ -233,24 +253,20 @@
         <div class="main">
             <nav class="navbar navbar-expand px-3 border-bottom" style="background-color: #f8d166;">
                 <!-- Button for sidebar toggle -->
-                <button class="btn" type="button" data-bs-theme="dark" style="background-color:rgba(12, 12, 12, 0.717);">
+                <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar" data-bs-theme="dark" style="background-color:rgba(12, 12, 12, 0.717);">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 
                 
-                <div class="ms-auto">
+                <div class="ms-auto" id="navbarRight">
                     {% if request.user.is_authenticated %}
-                        <span style="margin-right: 10px;">Hello, {{ request.user.username }} </span>
-                    {% if request.user.personal.profile_pic %}  
-                    <a href="{% url 'account_settings' %}">          
-                        <img style="  width: 40px;
-                        height: 40px;
-                        margin: 0 auto;
-                        border-radius: 50%;
-                        object-fit: cover;" class="profile-pic" src="{{ request.user.personal.profile_pic.url }}" alt="Profile Picture">
-                    </a> 
-                    {% endif %}
-                        <span><a href="{% url 'logout' %}" class="btn btn-sm btn-warning">Logout</a></span>
+                        <span id="helloAdmin" style="margin-right: 10px;">Hello, {{ request.user.username }}</span>
+                        {% if request.user.personal.profile_pic %}
+                        <a href="{% url 'account_settings' %}">
+                            <img style="width: 40px; height: 40px; margin: 0 auto; border-radius: 50%; object-fit: cover;" class="profile-pic" src="{{ request.user.personal.profile_pic.url }}" alt="Profile Picture">
+                        </a>
+                        {% endif %}
+                        <span><a href="{% url 'logout' %}" class="btn btn-sm btn-warning" id="logoutBtn">Logout</a></span>
                     {% else %}
                         <span><a href="{% url 'login' %}" class="btn btn-sm btn-primary">Login</a></span>
                     {% endif %}
@@ -274,16 +290,27 @@
     </div>
     
     
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+    crossorigin="anonymous"></script>
     <script>
+       document.addEventListener("DOMContentLoaded", function() {
         const toggler = document.querySelector(".btn");
-        toggler.addEventListener("click",function(){
-            document.querySelector("#sidebar").classList.toggle("collapsed");
+        const sidebar = document.querySelector("#sidebar");
+        const logoutBtn = document.getElementById("logoutBtn");
+        const helloAdmin = document.getElementById("helloAdmin");
+
+        toggler.addEventListener("click", function() {
+            sidebar.classList.toggle("collapsed");
+            
+            // Delay before displaying the elements
+            setTimeout(function() {
+                logoutBtn.classList.toggle("hidden");
+                helloAdmin.classList.toggle("hidden");
+            }, 200); // Adjust the delay time as needed (200 milliseconds in this example)
+            });
         });
     </script>
-
 </body>
 </html>
 

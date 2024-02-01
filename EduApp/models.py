@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from django_resized import ResizedImageField
 
 
     
@@ -24,7 +24,7 @@ class Personal(models.Model):
     phone_number = models.CharField(max_length=10, null=True, blank=True)
     email = models.EmailField(max_length=254, null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
-    profile_pic = models.ImageField( default='default.jpeg', null=True, blank=True)
+    profile_pic = ResizedImageField(size=[600, 600], quality=85, null=True, blank=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
 
     
@@ -56,13 +56,13 @@ class Work(models.Model):
     date_at_current_station = models.DateField(null=True, blank=True, help_text="Enter your date of current station")
     ssnit = models.CharField(max_length=10, null=True, blank=True)
     ntc_license_number = models.CharField(max_length=10, null=True, blank=True)
-    rank = models.CharField(max_length=10, null=True, blank=True)
-    date_promoted_to_rank =  models.CharField(max_length=10, null=True, blank=True) 
+    rank = models.CharField(max_length=100, null=True, blank=True)
+    date_promoted_to_rank =  models.DateField(null=True, blank=True, help_text="Enter your date of promotion") 
     staff_category = models.CharField(max_length=20, choices=STAFF_CATEGORY_CHOICES)
-    academics= models.CharField(max_length=10, null=True, blank=True) 
-    professional = models.CharField(max_length=10, null=True, blank=True) 
-    schedule = models.CharField(max_length=10, null=True, blank=True) 
-    deaprtment_category = models.CharField(max_length=50, choices=DEPARTMENT_CHOICES)
+    academics= models.CharField(max_length=100, null=True, blank=True) 
+    professional = models.CharField(max_length=100, null=True, blank=True) 
+    schedule = models.CharField(max_length=100, null=True, blank=True) 
+    department_category = models.CharField(max_length=50, choices=DEPARTMENT_CHOICES)
     personal = models.ForeignKey(Personal, on_delete=models. CASCADE)    
     
     
@@ -72,12 +72,12 @@ class Work(models.Model):
     
     
 class Nominal(models.Model):
-    name_of_bank = models.CharField(max_length=50, null=True, blank=True)
-    bank_branch = models.CharField(max_length=50, null=True, blank=True)
-    auth_number = models.CharField(max_length=50, null=True, blank=True)
-    salary_grade_type = models.CharField(max_length=50, null=True, blank=True)
-    salary_grade_level = models.CharField(max_length=50, null=True, blank=True)
-    grade_step = models.CharField(max_length=50, null=True, blank=True)
+    name_of_bank = models.CharField(max_length=100, null=True, blank=True)
+    bank_branch = models.CharField(max_length=100, null=True, blank=True)
+    auth_number = models.CharField(max_length=100, null=True, blank=True)
+    salary_grade_type = models.CharField(max_length=100, null=True, blank=True)
+    salary_grade_level = models.CharField(max_length=100, null=True, blank=True)
+    grade_step = models.CharField(max_length=100, null=True, blank=True)
     personal = models.ForeignKey(Personal, on_delete=models.CASCADE)
     
     

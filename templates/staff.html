@@ -140,10 +140,10 @@
 <body>
     <div class="wrapper">
         <!-- Sidebar -->
-        <aside id="sidebar" style="background-color: #f8d166;">
+        <aside id="sidebar" class="collapsed" style="background-color: #f8d166;">
             <div class="h-100">
                 <div class="sidebar-logo">
-                    <a href="#">EDU</a>
+                    <a href="{% url 'home' %}">EDU</a>
                 </div>
                 <!-- Sidebar Navigation -->
                 <ul class="sidebar-nav">
@@ -151,28 +151,19 @@
                         Tools & Components
                     </li>
                     <li class="sidebar-item">
-                        <a href="#" class="sidebar-link">
-                            <i class="fa-solid fa-list pe-2"></i>
-                            Profile
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#pages"
-                            aria-expanded="false" aria-controls="pages">
-                            <i class="fa-regular fa-file-lines pe-2"></i>
-                            Pages
-                        </a>
-                        <ul id="pages" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                            <li class="sidebar-item">
-                                <a href="#" class="sidebar-link">Analytics</a>
-                            </li>
-                            <li class="sidebar-item">
-                                <a href="#" class="sidebar-link">Ecommerce</a>
-                            </li>
-                            <li class="sidebar-item">
-                                <a href="#" class="sidebar-link">Crypto</a>
-                            </li>
-                        </ul>
+                            <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#auth"
+                                aria-expanded="false" aria-controls="auth">
+                                <i class="fa-regular fa-file-lines pe-2"></i>
+                                Profile
+                            </a>
+                            <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                                <li class="sidebar-item">
+                                    <a href="{% url 'admin_profile' %}" class="sidebar-link">Create Profile</a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="{% url 'account_settings_admin' %}" class="sidebar-link">Settings</a>
+                                </li>
+                            </ul>
                     </li>
                     <li class="sidebar-item">
                         <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard"
@@ -187,7 +178,6 @@
                             <li class="sidebar-item">
                                 <a href="{% url 'Adminpage' %}" class="sidebar-link">Counts</a>
                             </li>
-                           
                             
                         </ul>
                     </li>
@@ -199,10 +189,10 @@
                         </a>
                         <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                             <li class="sidebar-item">
-                                <a href="#" class="sidebar-link">Login</a>
+                                <a href="{% url 'login' %}" class="sidebar-link">Login</a>
                             </li>
                             <li class="sidebar-item">
-                                <a href="#" class="sidebar-link">Log Out</a>
+                                <a href="{% url 'logout' %}" class="sidebar-link">Log Out</a>
                             </li>
                         </ul>
                     </li>
@@ -244,10 +234,18 @@
                 </button>
                 <div class="ms-auto">
                     {% if request.user.is_authenticated %}
-                        <span style="margin-right: 20px;">Hello, {{ request.user.username }} </span>
+                        <span style="margin-right: 10px;">Hello, {{ request.user.username }} </span>
+                    {% if request.user.personal.profile_pic %}  
+                    <a href="{% url 'account_settings' %}">          
+                        <img style="  width: 40px;
+                        height: 40px;
+                        margin: 0 auto;
+                        border-radius: 50%;
+                        object-fit: cover;" class="profile-pic" src="{{ request.user.personal.profile_pic.url }}" alt="Profile Picture">
+                    </a> 
+                    {% endif %}
                         <span><a href="{% url 'logout' %}" class="btn btn-sm btn-warning">Logout</a></span>
                     {% else %}
-                        <!-- Display a login link for non-authenticated users -->
                         <span><a href="{% url 'login' %}" class="btn btn-sm btn-primary">Login</a></span>
                     {% endif %}
                 </div>
@@ -257,9 +255,11 @@
                     <div class="container">
                         <h1>{{ staff.first_name }} {{ staff.last_name }}</h1>
                         <hr>
+                        
                         <div class="profile-info">
                             
                             <div class="user-details">
+                                
                                 <p><strong>First Name:</strong> {{ staff.first_name }}</p>
                                 <p><strong>Last Name:</strong> {{ staff.last_name }}</p>
                                 <!-- Add other personal details as needed -->
@@ -320,11 +320,87 @@
                                     <td><strong>Date at Current Station</strong></td>
                                     <td>{{ work_instance.date_at_current_station }}</td>
                                 </tr>
-                                <!-- Add other work details as needed -->
+                                <tr>
+                                    <td><strong>SSNIT</strong></td>
+                                    <td>{{ work_instance.ssnit }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>NTC license number</strong></td>
+                                    <td>{{ work_instance.ntc_license_number }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Rank</strong></td>
+                                    <td>{{ work_instance.rank }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Date promoted to Rank</strong></td>
+                                    <td>{{ work_instance.date_promoted_to_rank}}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Staff Cateogory</strong></td>
+                                    <td>{{ work_instance.staff_category}}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Academics</strong></td>
+                                    <td>{{ work_instance.academics}}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Professional</strong></td>
+                                    <td>{{ work_instance.professional}}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Schedule</strong></td>
+                                    <td>{{ work_instance.schedule}}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Department Category</strong></td>
+                                    <td>{{ work_instance.department_category}}</td>
+                                </tr>
                             </table>
                         {% else %}
-                            <p>No work information available.</p>
+                        <br>
+                            <p style="text-align: center;">No work information available.</p>
                         {% endif %}
+
+                        
+                        {% if nominal_instance %}
+                            <br>
+                            <h2 style="text-align: center;">Nominal Details</h2>
+                            <table>
+                                <tr>
+                                    <th>FIELD</th>
+                                    <th>INFO</th>
+                                </tr>
+                                <tr>
+                                    <td><strong>Name of bank</strong></td>
+                                    <td>{{ nominal_instance.name_of_bank }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Bank Branch</strong></td>
+                                    <td>{{ nominal_instance.bank_branch }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Auth Number</strong></td>
+                                    <td>{{ nominal_instance.auth_number }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Salay Grade Type</strong></td>
+                                    <td>{{ nominal_instance.salary_grade_type }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Salary Grade Level</strong></td>
+                                    <td>{{ nominal_instance.salary_grade_level }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Grade Step</strong></td>
+                                    <td>{{ nominal_instance.grade_step }}</td>
+                                </tr>
+                            </table>
+                        {% else %}
+                        <br>
+                            <p style="text-align: center;">No nominal information available.</p>
+                        {% endif %}
+                            
                     </div>
                         
                 </div>
@@ -339,12 +415,16 @@
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
-    <script>
-        const toggler = document.querySelector(".btn");
-        toggler.addEventListener("click",function(){
-            document.querySelector("#sidebar").classList.toggle("collapsed");
-        });
-    </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const toggler = document.querySelector(".btn");
+                const sidebar = document.querySelector("#sidebar");
+        
+                toggler.addEventListener("click", function() {
+                    sidebar.classList.toggle("collapsed");
+                });
+            });
+        </script>
 
 </body>
 </html>
