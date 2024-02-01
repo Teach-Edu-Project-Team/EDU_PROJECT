@@ -15,7 +15,14 @@
   
     <div style="margin-top: 30px; border-radius: 8px;">
 
-        <h1 style="text-align: center; color: #3498db; margin-bottom: 30px;">Admin Profile</h1>
+    
+
+        <h1 style="text-align: center; color: #3498db; margin-bottom: 30px;">
+            Admin Profile
+            <a style="margin-left: 30px;" href="{% url 'download_user_excel' %}" target="_blank">
+                <i class="fa-solid fa-download"></i>
+            </a>
+        </h1>
 
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; background-color: #f8d166; border-radius: 8px; overflow: hidden;">
             <thead>
