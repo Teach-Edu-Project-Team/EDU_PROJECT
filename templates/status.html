@@ -134,6 +134,19 @@
             }
         }
 
+        #logoutBtn.hidden,
+        #helloAdmin.hidden {
+            display: none;
+        }
+
+        /* Responsive styles for mobile view */
+        @media (max-width: 767px) {
+            #sidebar.collapsed #logoutBtn,
+            #sidebar.collapsed #helloAdmin {
+                display: none;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -236,23 +249,20 @@
                 </button>
                 
                 <!-- Content aligned to the left -->
-                <div class="ms-auto">
+                <div class="ms-auto" id="navbarRight">
                     {% if request.user.is_authenticated %}
-                        <span style="margin-right: 10px;">Hello, {{ request.user.username }} </span>
-                    {% if request.user.personal.profile_pic %}  
-                    <a href="{% url 'account_settings' %}">          
-                        <img style="  width: 40px;
-                        height: 40px;
-                        margin: 0 auto;
-                        border-radius: 50%;
-                        object-fit: cover;" class="profile-pic" src="{{ request.user.personal.profile_pic.url }}" alt="Profile Picture">
-                    </a> 
-                    {% endif %}
-                        <span><a href="{% url 'logout' %}" class="btn btn-sm btn-warning">Logout</a></span>
+                        <span id="helloAdmin" style="margin-right: 10px;">Hello, {{ request.user.username }}</span>
+                        {% if request.user.personal.profile_pic %}
+                        <a href="{% url 'account_settings' %}">
+                            <img style="width: 40px; height: 40px; margin: 0 auto; border-radius: 50%; object-fit: cover;" class="profile-pic" src="{{ request.user.personal.profile_pic.url }}" alt="Profile Picture">
+                        </a>
+                        {% endif %}
+                        <span><a href="{% url 'logout' %}" class="btn btn-sm btn-warning" id="logoutBtn">Logout</a></span>
                     {% else %}
                         <span><a href="{% url 'login' %}" class="btn btn-sm btn-primary">Login</a></span>
                     {% endif %}
                 </div>
+                
             </nav>
             <main class="content px-3 py-2">
                 <div class="container-fluid">
@@ -318,20 +328,26 @@
         
     </div>
     
-    
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
-        crossorigin="anonymous"></script>
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                const toggler = document.querySelector(".btn");
-                const sidebar = document.querySelector("#sidebar");
-        
-                toggler.addEventListener("click", function() {
-                    sidebar.classList.toggle("collapsed");
-                });
-            });
-        </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+    crossorigin="anonymous"></script>
+    <script>
+       document.addEventListener("DOMContentLoaded", function() {
+        const toggler = document.querySelector(".btn");
+        const sidebar = document.querySelector("#sidebar");
+        const logoutBtn = document.getElementById("logoutBtn");
+        const helloAdmin = document.getElementById("helloAdmin");
 
+        toggler.addEventListener("click", function() {
+            sidebar.classList.toggle("collapsed");
+            
+            // Delay before displaying the elements
+            setTimeout(function() {
+                logoutBtn.classList.toggle("hidden");
+                helloAdmin.classList.toggle("hidden");
+            }, 200); // Adjust the delay time as needed (200 milliseconds in this example)
+            });
+        });
+    </script>
 </body>
 </html>
