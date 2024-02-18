@@ -1,4 +1,4 @@
-name: Edu Testing
+name: Auto Testing
 
 on:
   push:
