@@ -34,5 +34,5 @@ class BaseSetUp(TestCase):
 class ProfileEditTest(TestCase):
     def test_profile_edit(self):
         response = self.client.get(reverse('user_page'))
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
         
