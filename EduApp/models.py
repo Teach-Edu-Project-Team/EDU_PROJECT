@@ -84,6 +84,7 @@ class Nominal(models.Model):
     def __str__(self):
         return f" Nominal data of {self.personal.first_name} {self.personal.last_name}"
     
+
     
 
 

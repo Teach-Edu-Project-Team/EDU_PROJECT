@@ -34,6 +34,8 @@ if ENVIRONMENT == 'development': #switch to production for changes everytime to 
     DEBUG = True
 else:
     DEBUG = False
+    
+STAGING = env('STAGING', default='False')
 
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', "edu-project-sci4.onrender.com"]
@@ -63,6 +65,7 @@ INSTALLED_APPS = [
     
     #Local App
     'EduApp',
+    'landingpages',
 ]
 
 CRISPY_TEMPLATE_PACK = "bootstrap5" # new
@@ -76,6 +79,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
+    #local middleware
+    'landingpages.middleware.maintenancepage_middleware',
 ]
 
 ROOT_URLCONF = 'EduProj.urls'
