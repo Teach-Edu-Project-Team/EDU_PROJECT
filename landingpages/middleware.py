@@ -9,7 +9,7 @@ def maintenancepage_middleware(get_response):
         if page_is_enabled('Maintenance'):     
             if request.path != reverse('maintenance'):
                 if '/admin' not in request.path:
-                    if settings.STAGING != 'True':
+                    if settings.STAGING != 'False':
                         return HttpResponseRedirect(reverse('maintenance'))
         
         
