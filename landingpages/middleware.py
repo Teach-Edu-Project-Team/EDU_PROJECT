@@ -12,6 +12,17 @@ def maintenancepage_middleware(get_response):
                     if settings.STAGING != 'True':
                         return HttpResponseRedirect(reverse('maintenance'))
         
+        if page_is_enabled('Staging'):
+            if request.path != reverse('locked'):
+                if '/admin' not in request.path:
+                    if settings.STAGING != 'True':
+                        if 'staging_access' not in request.session:
+                            return HttpResponseRedirect(reverse('maintenance'))
+                            
+                            
+                    
+                
+            
         
         response = get_response(request)    
         return response
