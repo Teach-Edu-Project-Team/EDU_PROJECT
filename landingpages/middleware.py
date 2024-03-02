@@ -20,7 +20,6 @@ def maintenancepage_middleware(get_response):
                             return HttpResponseRedirect(reverse('maintenance'))
                             
                             
-                    
                 
             
         
