@@ -40,6 +40,7 @@ STAGING = env('STAGING', default='False')
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', "edu-project-sci4.onrender.com"]
 
+CSRF_TRUSTED_ORIGINS = ['https://*onrender.com']
 
 
 # Application definition
